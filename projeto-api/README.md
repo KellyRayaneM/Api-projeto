@@ -1,64 +1,164 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Informações gerais sobre o projeto
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A requisição inicial a ser realizada seria um cadastro de usuário ao criar um usuário
+é criada uma carteira com saldo 0.0. 
 
-## About Laravel
+Após a criação do usuario é possível adicionar saldo na carteira por meio de deposito para fazer tranferências.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+As requisições são feitas via postman.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+#### Ferramentas utilizadas no projeto
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [X] PHP 8
+- [X] Laravel 8
+- [X] Mysql
+- [X] Arquitetura MVC
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Pré-requisitos
+- Ter o docker-composer instalado
+- Ter uma ferramenta que faça requisições a API Ex: Postman 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Rotas para Usuario**
+|Métodos| Parâmetros | Descrição |
+|---|---|---|
+|`GET`| `/api/users` | Retorna um JSON com todos os usuário. |
+|`GET`| `/api/user/{id}` | Retorna o usurário usando id do usuario. |
+|`GET`| `/api/user/{email}` | Retorna o usurário usando email do usuario. |
+|`GET`| `/api/user/{document}` | Retorna o usurário usando cpf ou cnpj do usuario. |
+|`POST`| `/api/user` | Efetua o cadastro de um usuário. |
+|`PUT`| `/api/user/update/{id}` | Atualiza o usurário usando id do usuario. |
+|`DELETE`| `/api/user/delete/{id}` | Deleta o usurário usando id do usuario. |
 
-## Laravel Sponsors
+### Criar [POST][/api/user]
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
++ Atributos
+ 
+  -campos obrigatórios
 
-### Premium Partners
+    + name: nome do usuário
+    + email: e-mail do usuário 
+    + type_document: informa se o documento é cpf ou npj 
+    + document: cpf ou cnpj do usuário 
+    + password: password do usuário 
+    + type_user: define se é usuario comum ou lojista
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
++ Request (application/json)
 
-## Contributing
+    + Headers
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+          Content-Type: application/json
 
-## Code of Conduct
+    + Body
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+          {
+                "name": "nome",
+                "email": "email@email.com",
+                "type_document": "sales or commom",
+                "document": "000000000",
+                "password": "XXXXXXX",
+                "type_user" : "sales ou commom"
+          }
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Atualizar [PUT][/api/user/{id}]
 
-## License
++ Atributos
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    + id: ID do usuário deve ser informado no link
+    + nome: nome do usuário 
+    + email: e-mail do usuário 
+    + document: cpf ou cnpj do usuário 
+    + password: senha atual 
+    + type_document: informa se o documento é cpf ou npj
+    + type_user: define se é usuario comum ou lojista
+
+
++ Request (application/json)
+
+    + Headers
+
+          Content-Type: application/json
+
+    + Body
+
+          {
+              "name": "nome",
+              "email": "email@email.com",
+              "type_document": "sales or commom",
+              "document": "000000000",
+              "password": XXXXXXX,
+              "type_user" : "sales ou commom"
+             
+          }
+
+
+**Rotas para Conta**
+|Métodos| Parâmetros | Descrição |
+|---|---|---|
+|`GET`| `/api/wallets` | Retorna um JSON com todas as carteiras. |
+|`GET`| `/api/wallet/{id}` | Retorna a carteira baseado no id do usuario. |
+|`POST`| `/api/transfer` | Efetua uma transferencia entre usuarios. |
+|`POST`| `/api/deposit` | Efetua o deposito de um determinado valor. |
+
+
+### Transferir [POST][/api/transfer]
+
++ Atributos (Campos Obrigatórios)
+
+    + id_user_out: id do usuario que irá enviar dinheiro
+    + user_id_in: id do usuário que recebe o dinheiro
+    + value: valor a ser enviado
+    + password: senha pra validar a tranferência
+
++ Request (application/json)
+
+    + Headers
+
+          Content-Type: application/json
+
+    + Body
+
+          {
+              "id_user_out" : 7,
+              
+               "id_user_in" : 5,
+
+              "value": 10.00,
+
+              "password": "123456"
+          }
+
+
+### Depositar[POST][/api/deposit]
+
++ Atributos (Campos Obrigatórios)
+
+    + user_id_in: id do usuário que recebe o dinheiro
+    + value: Valor a depositar (número, obrigatório)
+    + password: senha pra validar a deposito
+
++ Request (application/json)
+
+    + Headers
+
+          Content-Type: application/json
+
+    + Body
+
+          {
+              "user_id_in": 1,
+             
+              "password": "123456"
+
+              "value": 10.00,
+          }
+
+
+**Rotas para Trasações**
+|Métodos| Parâmetros | Descrição |
+|---|---|---|
+|`GET`| `/api/transactions` | Retorna um JSON com todas as transações. |
+|`GET`| `/api/transactions/{id}` | Retorna um JSON com as transações do id do usuário. |
+
+> 
